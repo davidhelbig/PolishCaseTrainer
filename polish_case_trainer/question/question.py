@@ -42,13 +42,24 @@ class NounCaseQuestion(Question):
         self._number = number
         self._case = case
 
+    def get_question_elements(self):
+        return {
+            'noun_base_form': self._noun.get_basic_form(),
+            'noun_gender': self._noun.get_gender(),
+            'adj_base_form': self._adjective.get_basic_form(),
+            'target_number': self._number,
+            'target_case': self._case
+        }
+
     def get_question_text(self):
+        question_elements = self.get_question_elements()
+        print(question_elements)
         return u"Noun: {} ({})\nAdjective: {}\nDecline for {} {}\n".format(
-            self._noun.get_basic_form(),
-            self._noun.get_gender(),
-            self._adjective.get_basic_form(),
-            self._number,
-            self._case
+            question_elements['noun_base_form'],
+            question_elements['noun_gender'],
+            question_elements['adj_base_form'],
+            question_elements['target_number'],
+            question_elements['target_case']
         )
 
     def get_question_options(self):
@@ -63,8 +74,13 @@ class NounCaseQuestion(Question):
         return unicodedata.normalize('NFC', answer) \
             == unicodedata.normalize('NFC', correct_forms)
 
-    def get_correct_answer(self):
+    def get_correct_answer_elements(self):
         noun_form = self._noun.get_case_form(self._number, self._case)
         adjective_form = self._adjective.get_case_form(
             self._number, self._case)
-        return u"{} {}".format(adjective_form, noun_form)
+
+        return {'noun_correct': noun_form, 'adj_correct': adjective_form}
+
+    def get_correct_answer_text(self):
+        answer_elements = self.get_correct_answer_elements()
+        return u"{} {}".format(answer_elements['noun_correct'], answer_elements['adj_correct'])
