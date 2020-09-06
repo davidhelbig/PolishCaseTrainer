@@ -12,6 +12,8 @@ CASES_AVAILABLE = [
         "instrumental", "locative", "vocative"
     ]
 
+MAX_NUM = 50 # maximum number of questions that can be retrieved at once
+
 class OneOrManyOf(hug.types.Multiple):
 
     def __init__(self, allowed_values):
@@ -36,11 +38,14 @@ api = hug.API(__name__)
 # if called with no arguments except the api, all origins ('*') will be allowed.
 api.http.add_middleware(hug.middleware.CORSMiddleware(api, allow_credentials=False))
 
-@hug.get("/question", examples=['numbers=singular&cases=genetive&cases=dative'])
+@hug.get("/questions", examples=['numbers=singular&cases=genetive&cases=dative'])
 def get_question(
     numbers: OneOrManyOf(NUMBERS_AVAILABLE),
-    cases: OneOrManyOf(CASES_AVAILABLE)):
+    cases: OneOrManyOf(CASES_AVAILABLE),
+    num: hug.types.in_range(1, MAX_NUM + 1) = 10):
     """ When queried for one or multiple numbers and cases, this endpoint returns a random question. """
+
+    questions = []
 
     bag = NounCaseQuestionBag(
         noun_bag,
@@ -48,11 +53,13 @@ def get_question(
         numbers,
         cases)
 
-    question = bag.get_question()
+    while len(questions) < num:
+        question = bag.get_question()
+        questions.append(
+            {
+                'question_elements': question.get_question_elements(),
+                'answer_elements': question.get_correct_answer_elements()
+            })
 
-    return {
-        'question_elements': question.get_question_elements(),
-        'answer_elements': question.get_correct_answer_elements()
-    }
-
+    return questions
     
