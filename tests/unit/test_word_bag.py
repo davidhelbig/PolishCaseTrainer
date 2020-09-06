@@ -1,11 +1,11 @@
-from nose.tools import *
+import pytest
 
 from polish_case_trainer.word.word_bag import WordBag
 
 
-@raises(TypeError)
 def test_invalid_word_list_value_throws_error():
-    word_bag = WordBag('invalid type data')
+    with pytest.raises(TypeError):
+        word_bag = WordBag('invalid type data')
 
 
 def test_get_word_from_bag_returns_item_from_input_list():

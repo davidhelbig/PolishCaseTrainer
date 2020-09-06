@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-from nose.tools import *
 
 from polish_case_trainer.word.word_repository import WordRepository
 from polish_case_trainer.word.word_factory import WordFactory

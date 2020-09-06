@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from nose.tools import *
+import pytest
 
 from polish_case_trainer.word.word import Adjective, Word, GenderNotSupported
 
@@ -9,16 +9,16 @@ def test_Adjective_is_also_valid_Word_object():
     assert isinstance(adjective, Word)
 
 
-@raises(GenderNotSupported)
 def test_set_gender_fails_if_data_not_available():
-    adjective = Adjective("dobry", "m")
-    adjective.set_gender("m inan")
+    with pytest.raises(GenderNotSupported):
+        adjective = Adjective("dobry", "m")
+        adjective.set_gender("m inan")
 
 
-@raises(TypeError)
 def test_setting_gender_case_forms_needs_dict():
     adjective = Adjective("dobry", "m")
-    adjective.set_gender_case_forms("m inan", "singular", None)
+    with pytest.raises(TypeError):
+        adjective.set_gender_case_forms("m inan", "singular", None)
 
 
 def test_set_gender_writes_case_forms_to_Word_superclass():
@@ -60,9 +60,9 @@ def test_other_gender_forms_work_correctly():
     adjective.get_case_form("plural", "dative") == "bogatym"
 
 
-@raises(GenderNotSupported)
 def test_ensure_gender_cant_be_set_to_other():
     adjective = Adjective("bogaty", "m")
-    adjective.set_gender_case_forms("other", "plural", {
-        "nominative": "bogate", "accusative": "bogate", "dative": "bogatym"})
-    adjective.set_gender("other")
+    with pytest.raises(GenderNotSupported):
+        adjective.set_gender_case_forms("other", "plural", {
+            "nominative": "bogate", "accusative": "bogate", "dative": "bogatym"})
+        adjective.set_gender("other")

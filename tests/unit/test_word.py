@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from nose.tools import *
+import pytest
 
 from polish_case_trainer.word.word import Word, CaseNotSupported
 
 
-@raises(TypeError)
 def test_instantiation_fails_without_arguments():
-    word = Word()
+    with pytest.raises(TypeError):
+        word = Word()
 
 
 def test_instantiation_succeeds_with_arguments():
@@ -27,10 +27,10 @@ def test_instantiated_values_are_accessible_via_getters():
     assert word.get_gender() == gender
 
 
-@raises(TypeError)
 def test_setting_case_forms_needs_dict():
     word = Word(u"dzień", "m inan")
-    word.set_case_forms("m inan", None)
+    with pytest.raises(TypeError):
+        word.set_case_forms("m inan", None)
 
 
 def test_set_case_forms_accepts_valid_data():
@@ -51,10 +51,10 @@ def test_supports_method_correctly_identifies_available_case_forms():
     assert word.supports("singular", "nominative") is True
 
 
-@raises(CaseNotSupported)
 def test_get_case_form_throws_error_for_non_supported_forms():
     word = Word(u"dzień", "m inan")
-    word.get_case_form("singular", "nominative")
+    with pytest.raises(CaseNotSupported):
+        word.get_case_form("singular", "nominative")
 
 
 def test_get_case_form_returns_correct_values():

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import json
-from nose.tools import *
 
 from polish_case_trainer.word.word_factory import WordFactory
 from polish_case_trainer.word.word import Word, Adjective

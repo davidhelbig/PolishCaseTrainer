@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from nose.tools import *
-from mock import Mock
+from unittest.mock import Mock
 
 from polish_case_trainer.word.word_service import WordService
 
