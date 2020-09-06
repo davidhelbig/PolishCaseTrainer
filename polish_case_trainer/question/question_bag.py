@@ -1,13 +1,12 @@
 import random
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 from ..word.word import CaseNotSupported, GenderNotSupported
 from ..word.word_bag import WordBag
 from ..question.question import NounCaseQuestion
 
 
-class QuestionBag:
-    __metaclass__ = ABCMeta
+class QuestionBag(ABC):
 
     @abstractmethod
     def get_question(self):
