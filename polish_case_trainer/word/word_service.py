@@ -8,12 +8,18 @@ class WordService:
     def get_noun_list(self):
         nouns = []
         for obj in self.word_repository.retrieve_nouns():
-            nouns.append(self.word_factory.create_noun_from_json_object(obj))
+            try:
+                nouns.append(self.word_factory.create_noun_from_json_object(obj))
+            except ValueError:
+                continue
         return nouns
 
     def get_adjective_list(self):
         adjectives = []
         for obj in self.word_repository.retrieve_adjectives():
-            adjectives.append(
-                self.word_factory.create_adjective_from_json_object(obj))
+            try:
+                adjectives.append(
+                    self.word_factory.create_adjective_from_json_object(obj))
+            except ValueError:
+                continue
         return adjectives

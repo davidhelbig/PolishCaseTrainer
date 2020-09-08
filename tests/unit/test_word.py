@@ -18,6 +18,17 @@ def test_instantiation_accepts_valid_values():
     gender = "m inan"
     word = Word(basic_form, gender)
 
+def test_instantiation_fails_with_empty_basic_form():
+    basic_form = ""
+    gender = "m inan"
+    with pytest.raises(ValueError):
+        word = Word(basic_form, gender)
+
+def test_instantiation_fails_with_empty_gender():
+    basic_form = "kolor"
+    gender = ""
+    with pytest.raises(ValueError):
+        word = Word(basic_form, gender)
 
 def test_instantiated_values_are_accessible_via_getters():
     basic_form = u"dzień"

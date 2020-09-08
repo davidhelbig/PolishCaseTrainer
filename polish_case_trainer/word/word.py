@@ -2,7 +2,11 @@
 class Word(object):
 
     def __init__(self, basic_form, gender):
+        if basic_form.strip() == "":
+            raise ValueError("basic_form cannot be empty!")
         self.basic_form = basic_form
+        if gender.strip() == "":
+            raise ValueError("gender cannot be empty!")
         self.gender = gender
         self.case_forms = {}
 
