@@ -38,7 +38,7 @@ api = hug.API(__name__)
 # if called with no arguments except the api, all origins ('*') will be allowed.
 api.http.add_middleware(hug.middleware.CORSMiddleware(api, allow_credentials=False))
 
-@hug.get("/questions", examples=['numbers=singular&cases=genetive&cases=dative'])
+@hug.get("/questions", examples=['numbers=singular&cases=genitive&cases=dative'])
 def get_question(
     numbers: OneOrManyOf(NUMBERS_AVAILABLE),
     cases: OneOrManyOf(CASES_AVAILABLE),
