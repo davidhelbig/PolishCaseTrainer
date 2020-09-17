@@ -19,6 +19,10 @@ class OneOrManyOf(hug.types.Multiple):
     def __init__(self, allowed_values):
         self.allowed_values = allowed_values
 
+    @property
+    def __doc__(self):
+        return "One or more of the following values: ({})".format("|".join(self.allowed_values))
+
     def __call__(self, input_value):
         as_multiple = super().__call__(input_value)
 
@@ -43,7 +47,7 @@ def get_question(
     numbers: OneOrManyOf(NUMBERS_AVAILABLE),
     cases: OneOrManyOf(CASES_AVAILABLE),
     num: hug.types.in_range(1, MAX_NUM + 1) = 10):
-    """ When queried for one or multiple numbers and cases, this endpoint returns a random question. """
+    """When queried for one or multiple numbers and cases, this endpoint returns a random question."""
 
     questions = []
 
